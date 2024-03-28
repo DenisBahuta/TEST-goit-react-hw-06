@@ -1,8 +1,18 @@
 import { MdPerson, MdPhone } from "react-icons/md";
 import css from "./Contact.module.css";
-import PropTypes from "prop-types";
 
-const Contact = ({ id, name, number, onDelete }) => {
+import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+
+import { deleteContact } from "../../redux/contactsSlice";
+
+const Contact = ({ id, name, number }) => {
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteContact(id)); // Отправляем экшен deleteContact с идентификатором контакта
+  };
+
   return (
     <div className={css.container}>
       <div className={css.contact}>
@@ -19,22 +29,19 @@ const Contact = ({ id, name, number, onDelete }) => {
           {number}
         </p>
       </div>
-      <button className={css.button} type='button' onClick={() => onDelete(id)}>
+      <button className={css.button} type='button' onClick={handleDelete}>
         Delete
       </button>
     </div>
   );
 };
 
-// Описание типов пропсов компонента ContactList
+// Описание типов пропсов компонента Contact
 
 Contact.propTypes = {
-  contact: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
-    onDelete: PropTypes.func.isRequired,
-  }).isRequired,
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
 };
 
 export default Contact;

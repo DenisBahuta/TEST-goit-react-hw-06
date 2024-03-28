@@ -1,44 +1,34 @@
-const INITIAL_STATE = {
-  contactData: null,
-  isLoading: false,
-  isError: false,
+import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { INITIAL_STATE } from "./store";
 
-  // contacts: []
-};
+const contactsSlice = createSlice({
+  // Ім'я слайсу
+  name: "contacts",
+  // Початковий стан редюсера слайсу
+  initialState: INITIAL_STATE,
+  // Об'єкт редюсерів
+  reducers: {
+    addContact: {
+      reducer(state, action) {
+        state.items.push(action.payload);
+      },
+      prepare: (text) => {
+        return {
+          payload: {
+            text,
+            id: nanoid(),
+            completed: false,
+          },
+        };
+      },
+    },
+    deleteContact(state, action) {
+      state.items = state.items.filter(
+        (contact) => contact.id !== action.payload
+      );
+    },
+  },
+});
 
-// INITIAL_STATE.isError = false; -> mutable change ❌
-
-// const NEW_STATE = { -> immutable change ✅
-//     ...INITIAL_STATE,
-//     isError: false
-// }
-
-export const ContactDetailsReducer = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case "contacts/setContactData": {
-      return { ...state, contactData: action.payload };
-    }
-    case "contacts/setIsLoading": {
-      return { ...state, isLoading: action.payload };
-    }
-    case "contacts/setIsError": {
-      return { ...state, isError: action.payload };
-    }
-
-    // как в ДЗ
-    case "contacts/addContact": {
-      return { ...state, contacts: [...state.contacts, action.payload] };
-    }
-    case "contacts/deleteContact": {
-      return {
-        ...state,
-        contacts: state.contacts.filter(
-          (contact) => contact.id !== action.payload
-        ),
-      };
-    }
-
-    default:
-      return state;
-  }
-};
+export const { addContact, deleteContact } = contactsSlice.actions;
+export const contactsReducer = contactsSlice.reducer;

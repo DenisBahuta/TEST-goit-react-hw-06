@@ -1,15 +1,29 @@
+import { useSelector } from "react-redux";
+
 import Contact from "../Contact/Contact";
 import css from "./ContactList.module.css";
 import PropTypes from "prop-types";
+import { selectContacts, selectNameFilter } from "../../redux/selectors";
 
 // компонент ContactList рисует список контактов
 
-const ContactList = ({ contacts, onDelete }) => {
+// фильтрация коллекции
+const isVisibleContacts = (contacts, filter) => {
+  return contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
+};
+
+const ContactList = () => {
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectNameFilter);
+  const visibleContacts = isVisibleContacts(contacts, filter);
+
   return (
     <ul className={css.list}>
-      {contacts.map((contact) => (
+      {visibleContacts.map((contact) => (
         <li className={css.item} key={contact.id}>
-          <Contact {...contact} onDelete={onDelete} />
+          <Contact {...contact} />
         </li>
       ))}
     </ul>
