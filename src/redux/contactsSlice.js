@@ -1,5 +1,11 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
-import { INITIAL_STATE } from "./store";
+
+// початковий стан Redux
+export const INITIAL_STATE = {
+  contacts: {
+    items: [],
+  },
+};
 
 const contactsSlice = createSlice({
   // Ім'я слайсу
