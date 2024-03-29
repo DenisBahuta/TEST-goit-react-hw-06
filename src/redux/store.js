@@ -18,30 +18,27 @@ export const INITIAL_STATE = {
   contacts: {
     items: [],
   },
-  filters: {
-    name: "",
-  },
 };
 
 // Reducers
-export const ContactsReducer = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case "contacts/addContact": {
-      return { ...state, contacts: [...state.contacts, action.payload] };
-    }
-    case "contacts/deleteContact": {
-      return {
-        ...state,
-        contacts: state.contacts.filter(
-          (contact) => contact.id !== action.payload
-        ),
-      };
-    }
+// export const ContactsReducer = (state = INITIAL_STATE, action) => {
+//   switch (action.type) {
+//     case "contacts/addContact": {
+//       return { ...state, contacts: [...state.contacts, action.payload] };
+//     }
+//     case "contacts/deleteContact": {
+//       return {
+//         ...state,
+//         contacts: state.contacts.filter(
+//           (contact) => contact.id !== action.payload
+//         ),
+//       };
+//     }
 
-    default:
-      return state;
-  }
-};
+//     default:
+//       return state;
+//   }
+// };
 
 // Action creators
 export const addContact = (payload) => {
