@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 
 import Contact from "../Contact/Contact";
 import css from "./ContactList.module.css";
-import PropTypes from "prop-types";
 import { selectContacts, selectNameFilter } from "../../redux/selectors";
 
 // компонент ContactList рисует список контактов
@@ -30,15 +29,4 @@ const ContactList = () => {
   );
 };
 
-// Описание типов пропсов компонента ContactList
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};
 export default ContactList;

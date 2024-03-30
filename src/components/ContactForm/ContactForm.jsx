@@ -2,7 +2,6 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { nanoid } from "nanoid";
 import css from "./ContactForm.module.css";
-import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { addContact } from "../../redux/contactsSlice";
 
@@ -25,11 +24,8 @@ const INITIAL_FORM_VALUES = {
 const ContactForm = () => {
   const dispatch = useDispatch();
 
-  const nameId = nanoid();
-  const numberId = nanoid();
-
   const handleSubmit = (values, actions) => {
-    dispatch(addContact(values)); // отправляем экшен addContact с данными из формы
+    dispatch(addContact({ id: nanoid(), ...values })); // отправляем экшен addContact с данными из формы
     actions.resetForm(); // сброс формы после отправки
   };
 
@@ -40,9 +36,7 @@ const ContactForm = () => {
       validationSchema={ContactSchema}
     >
       <Form className={css.form}>
-        <label className={css.label} htmlFor={nameId}>
-          Name
-        </label>
+        <label className={css.label}>Name</label>
         <Field
           className={css.field}
           placeholder='Adam Smith'
@@ -52,9 +46,7 @@ const ContactForm = () => {
         <span className={css.errorMessage}>
           <ErrorMessage name='name' component='span' />
         </span>
-        <label className={css.label} htmlFor={numberId}>
-          Number
-        </label>
+        <label className={css.label}>Number</label>
         <Field
           className={css.field}
           placeholder='111-22-33'
@@ -70,12 +62,6 @@ const ContactForm = () => {
       </Form>
     </Formik>
   );
-};
-
-// Описание типов пропсов компонента ContactForm
-
-ContactForm.propTypes = {
-  onAdd: PropTypes.func.isRequired,
 };
 
 export default ContactForm;
